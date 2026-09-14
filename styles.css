@@ -1,15 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap');
 
 :root {
-  --bg: #05080f;
-  --bg2: #0c1220;
-  --bg3: #141b2c;
-  --border: #232c42;
+  --bg: #070b16;
+  --bg2: #111a2e;
+  --bg3: #1a2440;
+  --border: #2b3655;
   --text: #f4f6fb;
-  --text-muted: #a7afc4;
-  --accent: #2f7bff;
-  --teal: #16c7ae;
-  --purple: #8c6bff;
+  --text-muted: #b7c0d8;
+  --accent: #4c8cff;
+  --teal: #1fdcc0;
+  --purple: #a084ff;
   --gradient: linear-gradient(135deg, var(--teal), var(--purple));
   --font: 'Sora', sans-serif;
   --font-mono: 'Space Mono', monospace;
@@ -23,6 +23,44 @@ body {
   color: var(--text);
   font-family: var(--font);
   line-height: 1.65;
+  position: relative;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(650px circle at 12% 15%, rgba(160, 132, 255, 0.28), transparent 60%),
+    radial-gradient(550px circle at 88% 10%, rgba(76, 140, 255, 0.26), transparent 60%),
+    radial-gradient(600px circle at 50% 90%, rgba(31, 220, 192, 0.2), transparent 60%);
+  filter: blur(70px);
+  pointer-events: none;
+}
+
+.cur-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent);
+  pointer-events: none;
+  z-index: 9999;
+}
+
+.cur-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(76, 140, 255, 0.5);
+  pointer-events: none;
+  z-index: 9998;
 }
 
 .wrap {

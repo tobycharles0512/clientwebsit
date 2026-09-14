@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Handover Workflow — Charles Digital</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="inner">
+    <a class="brand" href="index.html">Charles Digital</a>
+    <nav>
+      <a href="questionnaire.html">Questionnaire</a>
+      <a href="terms.html">Terms &amp; Signature</a>
+      <a href="workflow.html">Handover Workflow</a>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap">
+  <h1>Handover Workflow</h1>
+  <p class="lede">A step-by-step guide to receiving your website/app. You don't need any technical background — just follow the steps in order. If anything is unclear, ask Toby before clicking anything — it's much easier to answer a question up front than to fix a mistake after. Your checked-off progress is saved in this browser as you go.</p>
+
+  <h2 style="margin-top:0;">The big picture, in plain English</h2>
+  <p>Right now your website's code lives in two places online:</p>
+  <ol>
+    <li><strong>GitHub</strong> — where the actual code is stored.</li>
+    <li><strong>Vercel</strong> — the service that takes that code and actually runs your website on the internet (this is "hosting").</li>
+  </ol>
+  <p>You will also need a <strong>domain name</strong> (like <code>yourbusiness.com</code>) — the address people type to reach your site. You'll buy this yourself, in your own account, so that you own it outright, forever, with no dependency on Toby.</p>
+  <p>Once everything below is done, all three of these things — the code, the hosting, and the domain — belong entirely to you. You could stop working with Toby the same day and your site would keep running exactly as it does now.</p>
+  <p><strong>Nothing changes on the live site for your visitors during this process.</strong> It stays online the whole time.</p>
+
+  <h2>What you need to do, in order</h2>
+
+  <h3>Step 1 — Create your GitHub account</h3>
+  <p>GitHub is a free website. You just need an account on it — nothing to buy here.</p>
+  <ol>
+    <li>Go to <a href="https://github.com" target="_blank" rel="noopener">github.com</a>.</li>
+    <li>Click <strong>Sign up</strong> (top-right corner).</li>
+    <li>Enter your email address, click <strong>Continue</strong>.</li>
+    <li>Create a password, click <strong>Continue</strong>.</li>
+    <li>Pick a username (this can be anything — it doesn't need to relate to your business), click <strong>Continue</strong>.</li>
+    <li>Answer the "receive updates" question (either is fine), click <strong>Continue</strong>.</li>
+    <li>Solve the little puzzle/verification if it appears.</li>
+    <li>Click <strong>Create account</strong>.</li>
+    <li>GitHub emails you a short launch code — check your inbox, type the code into the box on screen.</li>
+    <li>On the short "personalize" questionnaire, click <strong>Skip personalization</strong> at the bottom if you don't want to answer it.</li>
+  </ol>
+  <div id="step1"></div>
+
+  <h3>Step 2 — Create your repository</h3>
+  <p>A "repository" (or "repo") is just the folder that will hold your website's code. You're creating it empty — Toby will put the code into it once you've invited him (Step 3).</p>
+  <ol>
+    <li>Once logged in, click the <strong>+</strong> icon in the top-right corner of the page.</li>
+    <li>Click <strong>New repository</strong> from the dropdown.</li>
+    <li>In the <strong>Repository name</strong> field, type a name — e.g. your business name (no spaces; use hyphens instead, like <code>your-business-name</code>).</li>
+    <li>Leave <strong>Description</strong> blank, or add a short note — it doesn't matter.</li>
+    <li>Select <strong>Private</strong> — this keeps the code hidden from the public. (Public also works, but Private is recommended.)</li>
+    <li>Leave everything else as default — don't tick "Add a README file" or any other checkboxes.</li>
+    <li>Click the green <strong>Create repository</strong> button at the bottom.</li>
+  </ol>
+  <div class="note">Once done, tell Toby the repository's name and your GitHub username so he knows where to push the code once you've invited him.</div>
+  <div id="step2"></div>
+
+  <h3>Step 3 — Invite Toby to the repository</h3>
+  <p>This gives Toby permission to add the website's code into the repo you just created.</p>
+  <ol>
+    <li>On your repository's page, click the <strong>Settings</strong> tab.</li>
+    <li>In the left-hand sidebar, click <strong>Collaborators and teams</strong> (may just say <strong>Collaborators</strong>).</li>
+    <li>Click the green <strong>Add people</strong> button.</li>
+    <li>Re-enter your password if prompted.</li>
+    <li>In the search box, type Toby's email: <code>tobycharles11@icloud.com</code> (or his GitHub username, if given separately).</li>
+    <li>Select Toby from the results, then click <strong>Add to this repository</strong>.</li>
+    <li>Leave the permission level as <strong>Write</strong> — that's enough to push code in; it doesn't give any account-level control.</li>
+  </ol>
+  <div id="step3"></div>
+
+  <h3>Step 4 — Wait for the code</h3>
+  <p>Once you've told Toby the invite's been sent (and he's accepted it), he'll push the website's code into the repository you created. You don't need to do anything else here — he'll confirm once it's done.</p>
+  <div id="step4"></div>
+
+  <h3>Step 5 — Create a Vercel account</h3>
+  <p>Go to <a href="https://vercel.com" target="_blank" rel="noopener">vercel.com</a> and sign up (it's free). This is the hosting service your site runs on. You can sign up with the same email as your GitHub account, or a different one — either is fine. When it asks, it's easiest to click <strong>Continue with GitHub</strong> so the two accounts are linked from the start.</p>
+  <div id="step5"></div>
+
+  <h3>Step 6 — Connect the code to your own Vercel account</h3>
+  <p>There are two ways to do this. Toby will tell you which one applies before this step — it depends on whether there's an existing live Vercel project worth carrying over as-is.</p>
+  <p><strong>Option A — You connect it yourself (recommended, free, the default)</strong></p>
+  <ol>
+    <li>In your Vercel dashboard, click <strong>Add New...</strong> (top-right), then <strong>Project</strong>.</li>
+    <li>Under "Import Git Repository," find the repository (from Step 2) and click <strong>Import</strong> next to it. If it's not listed, click <strong>Adjust GitHub App Permissions</strong> and grant Vercel access to it.</li>
+    <li>Vercel will auto-detect the project settings — leave them as default unless told otherwise.</li>
+    <li>Click the black <strong>Deploy</strong> button.</li>
+    <li>From then on, every code change Toby pushes to GitHub redeploys automatically — no ongoing involvement needed, and no Vercel Team, invite, or payment required at all.</li>
+  </ol>
+  <p><strong>Option B — Toby does it for you (only when there's something worth preserving from an existing live project, ~£20/month temporary cost)</strong></p>
+  <ol>
+    <li>In the Vercel dashboard, click the team switcher (top-left) and choose <strong>Create Team</strong>. Give it any name, click <strong>Continue</strong>, then follow the prompts (you can skip inviting anyone else at this stage).</li>
+    <li>Go into that team's <strong>Settings → Members</strong>.</li>
+    <li>Click <strong>Invite Member</strong>, enter Toby's email (<code>tobycharles11@icloud.com</code>), and send.</li>
+    <li>Once Toby accepts, he'll do the actual technical transfer of the live project into your team, preserving settings, environment variables, domain, and deployment history.</li>
+    <li>Once confirmed and tested (Step 9), remove Toby from the team and downgrade back to free/personal. The site keeps running the whole time — cancelling just stops the £20 charge.</li>
+  </ol>
+  <div id="step6"></div>
+
+  <h3>Step 7 — Add a payment method to Vercel (only if needed)</h3>
+  <p>Simple sites run fine on Vercel's free "Hobby" plan — you likely won't need to pay anything just to keep the site online. Vercel may ask for a card on file for identity/anti-abuse verification, and will prompt you to upgrade if traffic or usage ever exceeds free-plan limits. This is a cost between you and Vercel directly.</p>
+  <div id="step7"></div>
+
+  <h3>Step 8 — Buy your domain, through Vercel</h3>
+  <ol>
+    <li>In your Vercel dashboard, click <strong>Domains</strong> in the left sidebar.</li>
+    <li>Click <strong>Buy</strong> (sometimes labelled "Add" → "Buy New Domain").</li>
+    <li>Type the domain name you want (e.g. <code>yourbusiness.com</code>) and check availability.</li>
+    <li>If available, add it to your cart and pay by card. Pricing depends on the ending (<code>.com</code>, <code>.co.uk</code>, <code>.io</code>, etc.) — Vercel shows the exact price before you pay.</li>
+    <li>WHOIS privacy (hiding your personal details from the public registry) is included automatically.</li>
+    <li>By default the domain auto-renews every year on your card — this is normal and recommended.</li>
+    <li>Once purchased, go into your <strong>Vercel project → Settings → Domains</strong>, and add this domain. Vercel automatically issues a secure certificate (HTTPS) — this can take a few minutes.</li>
+  </ol>
+  <div class="note">Already have a domain from somewhere else (GoDaddy, Namecheap, etc.) you want to keep using? That's fine — tell Toby and he'll give you the specific steps for connecting an existing domain instead of buying a new one.</div>
+  <div id="step8"></div>
+
+  <h3>Step 9 — Test everything</h3>
+  <p>Visit your new domain and click around — check every page, every form, every button that's supposed to do something (contact forms, logins, checkouts, anything that sends an email). Tell Toby immediately if anything looks broken before closing things out.</p>
+  <div id="step9"></div>
+
+  <h3>Step 10 — Any other accounts this project depends on</h3>
+  <p>Some websites rely on additional outside services beyond GitHub/Vercel/your domain — for example a database, an email-sending service, or payment processing. If this project uses any of those, Toby will list them separately with what you need to do for each.</p>
+
+  <h3>Step 11 — Final sign-off</h3>
+  <p>Once you've confirmed everything works and final payment (per your signed agreement) is settled, Toby will remove his own access to your accounts, and the handover is complete. From that point on, everything is entirely yours — hosting, domain, and code — with no ongoing dependency on him unless separately agreed.</p>
+  <div id="step11"></div>
+
+  <h2>What you now own, and what that means</h2>
+  <table>
+    <thead>
+      <tr><th>Thing</th><th>Where it lives</th><th>Ongoing cost</th><th>Who manages it now</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Website code</td><td>Your GitHub account</td><td>Free</td><td>You</td></tr>
+      <tr><td>Hosting</td><td>Your Vercel account</td><td>Free (Hobby), or paid if you scale up</td><td>You</td></tr>
+      <tr><td>Domain name</td><td>Your Vercel account</td><td>Renews yearly, charged to your card</td><td>You</td></tr>
+      <tr><td>Vercel Team (Option B only)</td><td>Your Vercel account</td><td>~£20/mo while Toby is still a member</td><td>You</td></tr>
+    </tbody>
+  </table>
+  <p>If you ever want changes made to the site, or ongoing support, that's a separate conversation from this handover — see your signed agreement for what (if anything) was included.</p>
+</div>
+
+<script>
+const STEPS = {
+  step1: ['GitHub account created.'],
+  step2: ['Repository created. Repo name and GitHub username sent to Toby.'],
+  step3: ['Invite sent to Toby.'],
+  step4: ['Code confirmed showing in your repository.'],
+  step5: ['Vercel account created.'],
+  step6: ['Decided which option applies.', 'Account set up / invite sent (Option B) or project deployed (Option A).'],
+  step7: ['Checked / added payment method if prompted.'],
+  step8: ['Domain purchased.', 'Domain attached to the project and showing as "Valid Configuration" in Vercel.'],
+  step9: ['Site loads correctly on the new domain.', 'All key features tested and working.'],
+  step11: ['Final payment settled and confirmed with Toby.']
+};
+
+const STORAGE_KEY = 'handover-workflow-progress';
+let saved = {};
+try { saved = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; } catch (e) { saved = {}; }
+
+Object.entries(STEPS).forEach(([stepId, items]) => {
+  const container = document.getElementById(stepId);
+  items.forEach((label, i) => {
+    const id = `${stepId}_${i}`;
+    const row = document.createElement('div');
+    row.className = 'checklist-item';
+    const checked = !!saved[id];
+    row.innerHTML = `<input type="checkbox" id="cb_${id}" ${checked ? 'checked' : ''}><label for="cb_${id}" style="margin:0;font-weight:normal;color:inherit;">${label}</label>`;
+    container.appendChild(row);
+    row.querySelector('input').addEventListener('change', e => {
+      saved[id] = e.target.checked;
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(saved)); } catch (e) {}
+    });
+  });
+});
+</script>
+
+</body>
+</html>

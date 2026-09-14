@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Website Requirements Questionnaire — Charles Digital</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="inner">
+    <a class="brand" href="index.html">Charles Digital</a>
+    <nav>
+      <a href="questionnaire.html">Questionnaire</a>
+      <a href="terms.html">Terms &amp; Signature</a>
+      <a href="workflow.html">Handover Workflow</a>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap">
+  <h1>Website Requirements Questionnaire</h1>
+  <p class="lede">Answer what you can below — it's fine to leave anything blank if it doesn't apply or you're not sure yet. When you're done, click "Send by Email" to open a pre-filled email to us with your answers.</p>
+
+  <label for="q_name">Your name / business name</label>
+  <input type="text" id="q_name" placeholder="e.g. Jane Smith, Smith &amp; Co.">
+
+  <div id="questions"></div>
+
+  <div class="note" id="lengthNote" style="display:none;">
+    Your answers are quite long — some email apps cut off long pre-filled emails. If your email opens with anything missing, use "Copy All Answers" below and paste them in manually before sending.
+  </div>
+
+  <button id="sendBtn" type="button">Send by Email</button>
+  <button id="copyBtn" type="button" class="secondary">Copy All Answers</button>
+  <div class="status-msg" id="statusMsg"></div>
+</div>
+
+<script>
+const QUESTIONS = [
+  { title: "1. Colors", items: [
+    "Do you already have brand colors (hex codes, logo, style guide)? If yes, send them over.",
+    "If not, any colors you definitely want — or definitely don't want?",
+    "Should the site be light background, dark background, or a mix?"
+  ]},
+  { title: "2. Theme / style", items: [
+    "What's the overall feel you're going for? (e.g. modern & minimal, bold & playful, corporate & professional, warm & personal, luxury/high-end)",
+    "Are there any websites you like the look of? Send 1–3 links/examples.",
+    "Any websites you've seen that you specifically don't want to look like?"
+  ]},
+  { title: "3. Scroll animations", items: [
+    "Do you want the site to be animated as people scroll (elements fading/sliding in, parallax effects, etc.), or kept simple and static?",
+    "If animated — subtle and professional, or more eye-catching/dynamic?"
+  ]},
+  { title: "4. Information detail", items: [
+    "What pages/sections do you need? (e.g. Home, About, Services, Menu, Gallery, Pricing, FAQ, Blog)",
+    "How much detail per section — short and punchy, or longer and thorough?",
+    "Do you have existing copy/text you want used, or should it be written from scratch?",
+    "Any photos, logos, or videos you already have to include?"
+  ]},
+  { title: "5. Contact details", items: [
+    "What contact info should be on the site? (phone, email, physical address, opening hours)",
+    "Do you want a contact form, or just direct details (phone/email/click-to-call)?",
+    "Any social media links to include? (Instagram, Facebook, etc.)",
+    "Do you want a map embed for a physical location?"
+  ]},
+  { title: "6. Purpose & audience", items: [
+    "What's the main goal of the site — get bookings/calls, sell products, look credible, showcase work, provide info?",
+    "What's the one thing you most want a visitor to do when they land on the page? (call you, book, buy, sign up, message you)",
+    "Who's the typical visitor — new customers, existing customers, other businesses?",
+    "Any competitor or similar-business sites worth looking at (even just for ideas, not to copy)?"
+  ]},
+  { title: "7. Logo & brand assets", items: [
+    "Do you have a logo already? If yes, send the file (ideally a high-res PNG or vector/SVG).",
+    "If no logo, is it just a text-based name/wordmark?",
+    "Any brand fonts you already use, or fonts you like the look of?"
+  ]},
+  { title: "8. Photos & imagery", items: [
+    "Do you have your own photos/videos to use, or do you need stock imagery sourced?",
+    "If stock — real/photographic, or illustrations/icons, or a mix?",
+    "Any imagery style to avoid (e.g. no stock-photo-looking people, no dark/moody shots)?"
+  ]},
+  { title: "9. Pages & structure", items: [
+    "One long scrolling page, or multiple separate pages (Home, About, Services, Contact, etc.)?",
+    "Do you need a navigation menu, or is it simple enough not to need one?"
+  ]}
+];
+
+const container = document.getElementById('questions');
+QUESTIONS.forEach((section, i) => {
+  const h2 = document.createElement('h2');
+  h2.textContent = section.title;
+  container.appendChild(h2);
+
+  const hint = document.createElement('p');
+  hint.className = 'field-hint';
+  hint.style.marginTop = '0';
+  hint.innerHTML = section.items.map(q => q).join('<br>');
+  container.appendChild(hint);
+
+  const label = document.createElement('label');
+  label.textContent = 'Your answer';
+  container.appendChild(label);
+
+  const textarea = document.createElement('textarea');
+  textarea.id = 'answer_' + i;
+  textarea.dataset.title = section.title;
+  container.appendChild(textarea);
+});
+
+function buildEmailBody() {
+  const name = document.getElementById('q_name').value.trim();
+  let body = name ? `From: ${name}\n\n` : '';
+  QUESTIONS.forEach((section, i) => {
+    const answer = document.getElementById('answer_' + i).value.trim();
+    body += `${section.title}\n${answer || '(no answer)'}\n\n`;
+  });
+  return body.trim();
+}
+
+function checkLength() {
+  const body = buildEmailBody();
+  document.getElementById('lengthNote').style.display = body.length > 1500 ? 'block' : 'none';
+}
+document.getElementById('questions').addEventListener('input', checkLength);
+
+document.getElementById('sendBtn').addEventListener('click', () => {
+  const name = document.getElementById('q_name').value.trim() || 'New Client';
+  const subject = encodeURIComponent(`Website Requirements — ${name}`);
+  const body = encodeURIComponent(buildEmailBody());
+  window.location.href = `mailto:tobycharles11@icloud.com?subject=${subject}&body=${body}`;
+});
+
+document.getElementById('copyBtn').addEventListener('click', async () => {
+  const text = buildEmailBody();
+  const statusMsg = document.getElementById('statusMsg');
+  try {
+    await navigator.clipboard.writeText(text);
+    statusMsg.textContent = 'Copied — paste it into an email to tobycharles11@icloud.com.';
+    statusMsg.className = 'status-msg success';
+  } catch (e) {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    statusMsg.textContent = 'Copied — paste it into an email to tobycharles11@icloud.com.';
+    statusMsg.className = 'status-msg success';
+  }
+});
+</script>
+
+</body>
+</html>

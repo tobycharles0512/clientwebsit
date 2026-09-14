@@ -39,64 +39,13 @@ body::before {
   pointer-events: none;
 }
 
-.bg-shapes {
+.bg-shape-canvas {
   position: fixed;
   inset: 0;
   z-index: -1;
-  overflow: hidden;
   pointer-events: none;
-}
-
-.shape {
-  position: absolute;
-  perspective: 900px;
-}
-
-.shape-a { width: 220px; height: 220px; top: 12%; left: 6%; animation: drift-a 14s ease-in-out infinite; }
-.shape-b { width: 320px; height: 320px; bottom: 8%; right: 6%; animation: drift-b 18s ease-in-out infinite; }
-
-.shape-spin {
   width: 100%;
   height: 100%;
-  position: relative;
-  transform-style: preserve-3d;
-  animation: spin3d 22s linear infinite;
-  opacity: 0.4;
-}
-
-.shape-b .shape-spin { animation-duration: 30s; opacity: 0.3; }
-
-.shape-spin i {
-  position: absolute;
-  inset: 0;
-  border: 1px solid rgba(76, 140, 255, 0.45);
-  border-radius: 50%;
-  font-style: normal;
-}
-
-.shape-spin i:nth-child(1) { transform: rotateX(0deg); border-color: rgba(76, 140, 255, 0.45); }
-.shape-spin i:nth-child(2) { transform: rotateX(60deg); border-color: rgba(160, 132, 255, 0.4); }
-.shape-spin i:nth-child(3) { transform: rotateX(120deg); border-color: rgba(31, 220, 192, 0.35); }
-.shape-spin i:nth-child(4) { transform: rotateY(60deg); border-color: rgba(76, 140, 255, 0.35); }
-.shape-spin i:nth-child(5) { transform: rotateY(120deg); border-color: rgba(160, 132, 255, 0.3); }
-
-@keyframes spin3d {
-  from { transform: rotateY(0deg) rotateX(8deg); }
-  to { transform: rotateY(360deg) rotateX(8deg); }
-}
-
-@keyframes drift-a {
-  0%, 100% { transform: translate(0, 0); }
-  50% { transform: translate(15px, -25px); }
-}
-
-@keyframes drift-b {
-  0%, 100% { transform: translate(0, 0); }
-  50% { transform: translate(-20px, 20px); }
-}
-
-@media (max-width: 700px) {
-  .bg-shapes { display: none; }
 }
 
 .cur-dot {

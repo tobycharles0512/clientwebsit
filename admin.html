@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — Charles Digital</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="wrap" style="padding-top:40px;">
+
+  <div id="gate">
+    <h1>Admin</h1>
+    <p class="lede">Enter the password to manage the current client agreement.</p>
+    <label for="gatePassword">Password</label>
+    <input type="password" id="gatePassword" autocomplete="off">
+    <button type="button" id="unlockBtn">Unlock</button>
+    <div class="status-msg" id="gateStatus"></div>
+  </div>
+
+  <div id="panel" style="display:none;">
+    <h1>Client Agreement Admin</h1>
+    <p class="lede">Fill in the current client's details and publish — the live terms page updates immediately. Clear when a deal is done so the next client doesn't see the previous one's details.</p>
+
+    <h2 style="margin-top:0;">My Signature</h2>
+    <div class="sig-block">
+      <p id="currentSigNote" class="field-hint" style="margin-top:0;">Checking for a saved signature…</p>
+      <img id="currentSigImg" alt="" style="max-width:300px;display:none;background:var(--cream);border-radius:4px;padding:8px;margin-bottom:14px;">
+      <label>Draw a new signature (leave blank to keep the one above)</label>
+      <canvas class="sig-pad" id="sellerPad"></canvas>
+      <button type="button" class="secondary" id="clearSellerPad">Clear pad</button>
+    </div>
+
+    <h2>Agreement Details</h2>
+    <div class="field-grid">
+      <div>
+        <label for="f_sellerName">Seller full name</label>
+        <input type="text" id="f_sellerName" placeholder="e.g. Toby Charles">
+      </div>
+      <div>
+        <label for="f_sellerAddress">Seller address</label>
+        <input type="text" id="f_sellerAddress" placeholder="Your address / business address">
+      </div>
+      <div>
+        <label for="f_buyerName">Buyer full name / company</label>
+        <input type="text" id="f_buyerName" placeholder="Client full name / company name">
+      </div>
+      <div>
+        <label for="f_buyerAddress">Buyer address</label>
+        <input type="text" id="f_buyerAddress" placeholder="Client address">
+      </div>
+      <div>
+        <label for="f_date">Date of agreement</label>
+        <input type="date" id="f_date">
+      </div>
+      <div>
+        <label for="f_projectName">Project name</label>
+        <input type="text" id="f_projectName" placeholder="e.g. Smith &amp; Co. website">
+      </div>
+      <div>
+        <label for="f_previewUrl">Current URL / preview link</label>
+        <input type="text" id="f_previewUrl" placeholder="https://...">
+      </div>
+      <div>
+        <label for="f_demoDate">Demo date</label>
+        <input type="date" id="f_demoDate">
+      </div>
+      <div class="full">
+        <label for="f_delivered">Items still to be delivered before handover</label>
+        <input type="text" id="f_delivered" placeholder="None — delivered in full as demonstrated.">
+      </div>
+      <div>
+        <label for="f_totalPrice">Total price (£)</label>
+        <input type="text" id="f_totalPrice" placeholder="e.g. 1,200">
+      </div>
+      <div>
+        <label for="f_depositAmount">Deposit (£)</label>
+        <input type="text" id="f_depositAmount" placeholder="e.g. 180">
+      </div>
+      <div>
+        <label for="f_depositPercent">Deposit (%)</label>
+        <input type="text" id="f_depositPercent" placeholder="e.g. 15%">
+      </div>
+      <div>
+        <label for="f_balanceTerms">Balance due</label>
+        <input type="text" id="f_balanceTerms" placeholder="e.g. on completion of handover">
+      </div>
+      <div>
+        <label for="f_paymentMethod">Payment method(s)</label>
+        <input type="text" id="f_paymentMethod" placeholder="e.g. bank transfer">
+      </div>
+      <div>
+        <label for="f_lateDays">Days before access revoked if unpaid</label>
+        <input type="text" id="f_lateDays" placeholder="e.g. 14">
+      </div>
+      <div>
+        <label for="f_jurisdiction">Governing law / jurisdiction</label>
+        <input type="text" id="f_jurisdiction" placeholder="e.g. England and Wales">
+      </div>
+      <div class="full">
+        <label>Support after handover</label>
+        <select id="f_support"></select>
+      </div>
+      <div>
+        <label for="f_sellerPrint">Seller name (print)</label>
+        <input type="text" id="f_sellerPrint">
+      </div>
+    </div>
+
+    <div class="contract" id="contract"></div>
+
+    <h2>Publish</h2>
+    <button type="button" id="publishBtn">Publish to Live Site</button>
+    <button type="button" id="clearBtn" class="secondary">Clear Current Client</button>
+    <div class="status-msg" id="publishStatus"></div>
+  </div>
+
+</div>
+
+<script src="contract-template.js"></script>
+<script>
+const gatePassword = document.getElementById('gatePassword');
+let savedPassword = '';
+
+document.getElementById('unlockBtn').addEventListener('click', () => {
+  savedPassword = gatePassword.value;
+  if (!savedPassword) {
+    document.getElementById('gateStatus').textContent = 'Enter a password.';
+    return;
+  }
+  document.getElementById('gate').style.display = 'none';
+  document.getElementById('panel').style.display = 'block';
+  loadCurrentData();
+});
+
+SUPPORT_OPTIONS.forEach(opt => {
+  const el = document.createElement('option');
+  el.value = opt.value;
+  el.textContent = opt.text;
+  document.getElementById('f_support').appendChild(el);
+});
+
+let currentSellerSignaturePng = null;
+
+function loadCurrentData() {
+  fetch('/api/client-data')
+    .then(r => r.json())
+    .then(data => {
+      if (data.sellerSignaturePng) {
+        currentSellerSignaturePng = data.sellerSignaturePng;
+        document.getElementById('currentSigImg').src = data.sellerSignaturePng;
+        document.getElementById('currentSigImg').style.display = 'block';
+        document.getElementById('currentSigNote').textContent = 'Currently saved signature (shown below). Leave the pad blank to keep it.';
+      } else {
+        document.getElementById('currentSigNote').textContent = 'No signature saved yet — draw one below before publishing your first client.';
+      }
+      if (data.client) {
+        const c = data.client;
+        ['sellerName','sellerAddress','buyerName','buyerAddress','date','projectName','previewUrl',
+          'demoDate','delivered','totalPrice','depositAmount','depositPercent','balanceTerms',
+          'paymentMethod','lateDays','jurisdiction','sellerPrint'].forEach(id => {
+          if (c[id] !== undefined) document.getElementById('f_' + id).value = c[id];
+        });
+        const supportSelect = document.getElementById('f_support');
+        [...supportSelect.options].forEach(o => { if (o.textContent === c.support) supportSelect.value = o.value; });
+      }
+      renderPreview();
+    });
+}
+
+function getFields() {
+  const ids = ['sellerName','sellerAddress','buyerName','buyerAddress','date','projectName',
+    'previewUrl','demoDate','delivered','totalPrice','depositAmount','depositPercent','balanceTerms',
+    'paymentMethod','lateDays','jurisdiction','sellerPrint'];
+  const f = {};
+  ids.forEach(id => { f[id] = document.getElementById('f_' + id).value.trim(); });
+  f.support = document.getElementById('f_support').selectedOptions[0].textContent;
+  f.buyerPrint = f.buyerName;
+  return f;
+}
+
+function renderPreview() {
+  document.getElementById('contract').innerHTML = contractHtml(getFields());
+}
+document.querySelectorAll('.field-grid input, .field-grid select').forEach(el => {
+  el.addEventListener('input', renderPreview);
+  el.addEventListener('change', renderPreview);
+});
+
+// --- Seller signature pad ---
+const canvas = document.getElementById('sellerPad');
+const ctx = canvas.getContext('2d');
+let drawing = false;
+let hasNewInk = false;
+
+function resize() {
+  const rect = canvas.getBoundingClientRect();
+  const ratio = window.devicePixelRatio || 1;
+  canvas.width = rect.width * ratio;
+  canvas.height = rect.height * ratio;
+  ctx.scale(ratio, ratio);
+  ctx.lineWidth = 2;
+  ctx.lineCap = 'round';
+  ctx.strokeStyle = '#0a0a0a';
+}
+window.addEventListener('resize', resize);
+resize();
+
+function pos(e) {
+  const rect = canvas.getBoundingClientRect();
+  return { x: e.clientX - rect.left, y: e.clientY - rect.top };
+}
+
+canvas.addEventListener('pointerdown', e => {
+  drawing = true;
+  hasNewInk = true;
+  const p = pos(e);
+  ctx.beginPath();
+  ctx.moveTo(p.x, p.y);
+});
+canvas.addEventListener('pointermove', e => {
+  if (!drawing) return;
+  const p = pos(e);
+  ctx.lineTo(p.x, p.y);
+  ctx.stroke();
+});
+window.addEventListener('pointerup', () => { drawing = false; });
+
+document.getElementById('clearSellerPad').addEventListener('click', () => {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  hasNewInk = false;
+});
+
+function publish(body) {
+  const statusEl = document.getElementById('publishStatus');
+  statusEl.textContent = 'Publishing…';
+  statusEl.className = 'status-msg';
+  fetch('/api/client-data', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ password: savedPassword, ...body })
+  })
+    .then(async r => {
+      if (r.status === 401) {
+        statusEl.textContent = 'Wrong password — nothing was changed.';
+        return;
+      }
+      if (!r.ok) {
+        statusEl.textContent = 'Something went wrong — please try again.';
+        return;
+      }
+      const data = await r.json();
+      statusEl.textContent = 'Published. The live terms page is now updated.';
+      statusEl.className = 'status-msg success';
+      if (data.data && data.data.sellerSignaturePng) currentSellerSignaturePng = data.data.sellerSignaturePng;
+    })
+    .catch(() => {
+      statusEl.textContent = 'Network error — please try again.';
+    });
+}
+
+document.getElementById('publishBtn').addEventListener('click', () => {
+  const body = { client: getFields() };
+  if (hasNewInk) body.sellerSignaturePng = canvas.toDataURL('image/png');
+  publish(body);
+});
+
+document.getElementById('clearBtn').addEventListener('click', () => {
+  publish({ client: null });
+});
+</script>
+
+</body>
+</html>

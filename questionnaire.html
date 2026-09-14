@@ -129,7 +129,7 @@ document.getElementById('sendBtn').addEventListener('click', () => {
   const name = document.getElementById('q_name').value.trim() || 'New Client';
   const subject = encodeURIComponent(`Website Requirements — ${name}`);
   const body = encodeURIComponent(buildEmailBody());
-  window.location.href = `mailto:tobycharles11@icloud.com?subject=${subject}&body=${body}`;
+  window.location.href = `mailto:charlesdigital11@outlook.com?subject=${subject}&body=${body}`;
 });
 
 document.getElementById('copyBtn').addEventListener('click', async () => {
@@ -137,7 +137,7 @@ document.getElementById('copyBtn').addEventListener('click', async () => {
   const statusMsg = document.getElementById('statusMsg');
   try {
     await navigator.clipboard.writeText(text);
-    statusMsg.textContent = 'Copied — paste it into an email to tobycharles11@icloud.com.';
+    statusMsg.textContent = 'Copied — paste it into an email to charlesdigital11@outlook.com.';
     statusMsg.className = 'status-msg success';
   } catch (e) {
     const ta = document.createElement('textarea');
@@ -148,7 +148,7 @@ document.getElementById('copyBtn').addEventListener('click', async () => {
     ta.select();
     document.execCommand('copy');
     document.body.removeChild(ta);
-    statusMsg.textContent = 'Copied — paste it into an email to tobycharles11@icloud.com.';
+    statusMsg.textContent = 'Copied — paste it into an email to charlesdigital11@outlook.com.';
     statusMsg.className = 'status-msg success';
   }
 });

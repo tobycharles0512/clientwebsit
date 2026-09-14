@@ -1,6 +1,10 @@
 # Client Portal / Admin Split — Design
 
-Status: approved, not yet implemented.
+Status: implemented 2026-09-14. Note: the final build simplified this to
+a single repo (admin.html lives alongside terms.html in `clientwebsit`,
+not a separate site) since a second deployment turned out to be
+unnecessary once the API is same-origin — see the commit history for the
+as-built version of this design.
 
 ## Problem
 
